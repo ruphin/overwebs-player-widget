@@ -1,0 +1,25 @@
+{
+  "name": "overwebs-player-widget",
+  "description": "The Overwatch Player Widget in VanillaJS WebComponents",
+  "main": "overwebs-player-widget.html",
+  "authors": [
+    "Goffert van Gool <ruphin@ruphin.net>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "web-components"
+  ],
+  "homepage": "https://github.com/ruphin/overwebs-player-widget",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "devDependencies": {
+    "webcomponentsjs": "git://github.com/webcomponents/webcomponentsjs.git#1.0.0-rc.11"
+  },
+  "dependencies": {
+    "overwebs-fonts": "*",
+    "gluonjs": "*"
+  }
+}
