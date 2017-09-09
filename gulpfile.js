@@ -2,20 +2,16 @@
 
 // Include Gulp & tools we'll use
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
+var inline = require('gulp-inline');
+var jsmin = require('gulp-jsmin')
+var minifyCss = require('gulp-minify-css')
+var autoprefixer = require('gulp-autoprefixer');
 var del = require('del');
-var map = require('map-stream');
-var runSequence = require('run-sequence');
+// var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
-var merge = require('merge-stream');
 var path = require('path');
-var fs = require('fs');
-var glob = require('glob-all');
 var historyApiFallback = require('connect-history-api-fallback');
-var packageJson = require('./package.json');
-var crypto = require('crypto');
 
-var gutil = require('gulp-util');
 
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
@@ -29,19 +25,9 @@ var AUTOPREFIXER_BROWSERS = [
   'bb >= 10'
 ];
 
-var BASEPATH = 'app';
-var basepath = function(...subpaths) {
-  return subpaths.length == 0 ? BASEPATH : path.join(BASEPATH, ...subpaths);
-};
-
-var DIST = 'dist';
-var dist = function(...subpaths) {
-  return subpaths.length == 0 ? DIST : path.join(DIST, ...subpaths);
-};
-
-var TMP = 'tmp';
-var tmp = function(...subpaths) {
-  return subpaths.length == 0 ? TMP : path.join(TMP, ...subpaths);
+var SOURCE = 'src';
+var source = function(...subpaths) {
+  return subpaths.length == 0 ? SOURCE : path.join(SOURCE, ...subpaths);
 };
 
 gulp.task('styles', function() {
@@ -159,11 +145,13 @@ gulp.task('clean', function() {
 });
 
 // Watch files for changes & reload
-gulp.task('serve', ['js', 'fonts'], function() {
+gulp.task('serve', function() {
   browserSync({
     port: 5000,
     notify: false,
+    open: false,
     logPrefix: 'APP',
+    files: [source('*'), 'index.html'],
     snippetOptions: {
       rule: {
         match: '<span id="browser-sync-binding"></span>',
@@ -172,22 +160,14 @@ gulp.task('serve', ['js', 'fonts'], function() {
         }
       }
     },
-    // Run as an https by uncommenting 'https: true'
-    // Note: this uses an unsigned certificate which on first access
-    //       will present a certificate warning in the browser.
-    // https: true,
     server: {
-      baseDir: [tmp(), basepath(), ''],
+      baseDir: [source(), 'bower_components', ''],
       middleware: [historyApiFallback()]
     }
   });
 
-  gulp.watch(basepath('*.html'), browserSync.reload);
-  gulp.watch(basepath('elements/**/*.html'), browserSync.reload);
-  gulp.watch(basepath('elements/**/*.js'), browserSync.reload);
-  gulp.watch(basepath('fonts/*'), browserSync.reload);
-  gulp.watch(basepath('scripts/*.js'), browserSync.reload);
-  gulp.watch(basepath('images/*'), browserSync.reload);
+  gulp.watch(source('*'), browserSync.reload);
+  gulp.watch('index.html', browserSync.reload);
 });
 
 // Build and serve the output from the dist build
@@ -216,12 +196,17 @@ gulp.task('serve:dist', ['default'], function() {
 });
 
 // Build production files, the default task
-gulp.task('default', ['clean'], function(cb) {
+gulp.task('default', function(cb) {
   // Uncomment 'cache-config' if you are going to use service workers.
-  runSequence(
-    ['base', 'fonts', 'images', 'elements'],
-    // 'cache-config',
-    cb);
+  gulp.src(source('*.html'))
+  .pipe(inline({
+    base: source(),
+    js: jsmin,
+    css: [minifyCss, autoprefixer({ browsers: AUTOPREFIXER_BROWSERS })],
+    disabledTypes: ['svg', 'img'], // Only inline css files
+    ignore: ['../gluonjs/gluon.min.js']
+  }))
+  .pipe(gulp.dest('.'));
 });
 
 // Load tasks for web-component-tester

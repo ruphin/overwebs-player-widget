@@ -10,12 +10,10 @@
   body {
     margin: 0;
     height: 100vh;
-    overflow: hidden;
     background: #223;
   }
 
   * {
-    cursor: url(/images/overwatch.cur), auto;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -24,12 +22,8 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
 
-  overwebs-main-menu {
-    width: 500px;
-  }
-
   :root {
-    --overwebs-window-scale: 1920px;
+    --overwebs-window-size: 100vw;
   }
 </style>
 
@@ -40,9 +34,13 @@
 <overwebs-player-widget id="player-widget"></overwebs-player-widget>
 
 <script type="text/javascript">
+{
   let widget = document.getElementById('player-widget');
   let player = {
-    'name': 'playername'
+    'name': 'playername',
+    'level': 254,
+    'avatar': '0x0250000000000A90'
   };
   widget.player = player;
+}
 </script>

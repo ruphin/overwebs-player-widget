@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "overwebs-fonts": "*",
-    "gluonjs": "*"
+    "gluonjs": "v0.0.6"
   }
 }

@@ -1,0 +1,48 @@
+<script src="../gluonjs/gluon.min.js"></script>
+<link rel="import" href="../overwebs-fonts/overwebs-fonts.html">
+
+<template id="overwebs-player-widget-template">
+  <style>
+#levelBox,#prestige{border-radius:calc(3 * var(--overwebs-window-size,1920px)/ 1920)}:host{display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;height:calc(60 * var(--overwebs-window-size,1920px)/ 1920);background:#27354F}#avatar,#status,.player{height:100%}#status{width:calc(6 * var(--overwebs-window-size,1920px)/ 1920);background:#7DFF00}#avatar{width:calc(60 * var(--overwebs-window-size,1920px)/ 1920);background-size:contain;background-repeat:no-repeat}.player{line-height:1;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-ms-flex-align:center;align-items:center;color:#fff;width:calc(340 * var(--overwebs-window-size,1920px)/ 1920)}#name{margin-left:calc(9.8 * var(--overwebs-window-size,1920px)/ 1920);font-size:calc(18 * var(--overwebs-window-size,1920px)/ 1920);margin-top:calc(1 * var(--overwebs-window-size,1920px)/ 1920);letter-spacing:calc(.25 * var(--overwebs-window-size,1920px)/ 1920);font-family:overwebs-helvetica;text-transform:uppercase}#level,#prestige{font-family:overwebs-futura}#levelBox{height:calc(18 * var(--overwebs-window-size,1920px)/ 1920);margin-left:calc(8 * var(--overwebs-window-size,1920px)/ 1920);padding-left:calc(6 * var(--overwebs-window-size,1920px)/ 1920);padding-right:calc(2 * var(--overwebs-window-size,1920px)/ 1920);display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-ms-flex-align:center;align-items:center}#level{font-size:calc(15 * var(--overwebs-window-size,1920px)/ 1920);line-height:calc(18 * var(--overwebs-window-size,1920px)/ 1920);padding-right:calc(5 * var(--overwebs-window-size,1920px)/ 1920);color:#fff;-webkit-transform:translateY(calc(1 * var(--overwebs-window-size,1920px)/ 1920));transform:translateY(calc(1 * var(--overwebs-window-size,1920px)/ 1920))}#prestige{display:inline-block;background:#FFF;font-size:calc(18 * var(--overwebs-window-size,1920px)/ 1920);line-height:calc(14 * var(--overwebs-window-size,1920px)/ 1920)}#levelBox.bronze{background:#A35435}#levelBox.bronze #prestige{color:#A35435}#levelBox.silver{background:silver;// TODO:fix placeholder}#levelBox.silver #prestige{color:silver;// TODO:fix placeholder}#levelBox.gold{background:gold;// TODO:fix placeholder}#levelBox.gold #prestige{color:gold;// TODO:fix placeholder}
+</style>
+  <div id="status"></div>
+  <div id="avatar"></div>
+  <div class="player">
+    <span id="name"></span>
+    <span id="levelBox">
+      <span id="level"></span>
+      <span id="prestige">
+        <!-- TODO: The futura font does not support the star glyph -->
+        <span id="stars"></span>
+      </span>
+    </span>
+  </div>
+</template>
+
+<script>
+
+{let prestigeRanks=['bronze','silver','gold']
+let _source=document.currentScript
+class OverwebsPlayerWidget extends Gluon.Element{static get _source(){return _source;}
+static get is(){return'overwebs-player-widget'}
+constructor(){super();this._player={};}
+set player(player){if(player.name){this.name=player.name;}
+if(player.avatar){this.avatar=player.avatar;}
+if(player.level){this.level=player.level;}
+if(player.status){this.status=player.status}}
+get player(){return this._player;}
+set name(name){this._player.name=name
+this.$.name.textContent=name}
+get name(){return this._player.name}
+set avatar(avatar){this._player.avatar=avatar
+this.$.avatar.style.backgroundImage='url('+this.resolveUrl(`avatars/${avatar}.png`)+')';}
+get avatar(){return this._player.avatar}
+set level(level){this._player.level=level
+this.$.levelBox.classList.remove.apply(this.$.levelBox.classList,prestigeRanks);this.$.levelBox.classList.add(prestigeRanks[Math.trunc(level/600)]);this.$.level.textContent=(level-1)%100+1;this.$.prestige.textContent='★'.repeat(Math.trunc(((level%600)-1)/100));}
+get level(){return this._player.level}
+set status(status){this._player.status=status
+this.$.status.style.background=this._statusBackground(status);}
+get status(){return this._player.status}
+_statusBackground(status){switch(status){case'available':return'#7DFF00';case'away':return'yellow';case'busy':return'red';default:return'#7DFF00';}}}
+customElements.define(OverwebsPlayerWidget.is,OverwebsPlayerWidget)}
+</script>
