@@ -2,9 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-<script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-
-<link rel="import" href="src/overwebs-player-widget.html">
+<script type="module" src="src/overwebs-player-widget.js"></script>
 
 <style>
   body {
@@ -19,10 +17,10 @@
     -webkit-user-select: none;
     -o-user-select: none;
     -ms-user-select: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 
-  :root {
+   :root {
     --overwebs-window-size: 100vw;
   }
 </style>
@@ -31,16 +29,38 @@
 <span id="browser-sync-binding"></span>
 <!-- endbuild -->
 
+<a href="/test">LINK</a>
+<a href="/test?a=b">QUERY</a>
+<a href="#THING">HASH</a>
+<a href="http://localhost:5000/something">FULL URI</a>
+<a href="https://www.google.com">GOOG</a>
 <overwebs-player-widget id="player-widget"></overwebs-player-widget>
 
-<script type="text/javascript">
-{
-  let widget = document.getElementById('player-widget');
-  let player = {
-    'name': 'playername',
-    'level': 254,
-    'avatar': '0x0250000000000A90'
-  };
-  widget.player = player;
-}
+<script>
+  // This would be how to configure the asset path for modules.
+  window.modulesAssetPath = function (module) {
+    if (module === 'overwebs-player-widget') {
+      return '';
+    } else {
+      return `node_modules/${module}`;
+    }
+  }
+
+  document.body.addEventListener('click', (event) => {
+    console.log("CLICKED")
+    console.log(event)
+    console.log(event.path)
+  })
+
+  // This is terrible, but seemingly the only way to wait until modules are imported
+  setTimeout(() => {
+    let widget = document.getElementById('player-widget');
+    let player = {
+      'name': 'playername',
+      'level': 254,
+      'avatar': '0x0250000000000A90'
+    };
+    widget.player = player;
+  }, 100)
+
 </script>

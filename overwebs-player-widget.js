@@ -1,11 +1,4 @@
-import { GluonElement, html, onRouteChange } from '../gluonjs/gluon.js';
-import '../overwebs-fonts/overwebs-fonts.js';
-
-let prestigeRanks = ['bronze', 'silver', 'gold'];
-
-class OverwebsPlayerWidget extends GluonElement {
-  get template() {
-    return html`
+import{GluonElement,html}from'../gluonjs/gluon.js';import'../overewebs-fonts/overwebs-fonts.js';let prestigeRanks=['bronze','silver','gold'];class OverwebsPlayerWidget extends GluonElement{get template(){return html`
 <style>
   :host {
     display: inline-flex;
@@ -102,80 +95,9 @@ class OverwebsPlayerWidget extends GluonElement {
 <div class="player">
   <span class="name">${this.name}</span>
   <span id="levelBox">
-    <span class="level">${(this.level - 1) % 100 + 1}</span>
+    <span class="level">${(this.level-1)%100+1}</span>
     <!-- TODO: The futura font does not support the star glyph -->
-    <span class="prestige">${'★'.repeat(Math.trunc((this.level % 600 - 1) / 100))}</span>
+    <span class="prestige">${'\u2605'.repeat(Math.trunc((this.level%600-1)/100))}</span>
   </span>
 </div>
-    `;
-  }
-
-  constructor() {
-    super();
-    this._player = {};
-  }
-
-  set player(player) {
-    // Risky strategy, but it works
-    Object.assign(this, player);
-  }
-
-  get player() {
-    return this._player;
-  }
-
-  set name(name) {
-    this._player.name = name;
-    this.render();
-  }
-
-  get name() {
-    return this._player.name || '';
-  }
-
-  set avatar(avatar) {
-    this._player.avatar = avatar;
-    // There is no way to refer to a relative file location in Modules right now so we use a helper function
-    this.$.avatar.style.backgroundImage = `url("${(window.modulesAssetPath && window.modulesAssetPath('overwebs-player-widget')) ||
-      ''}/avatars/${avatar}.png")`;
-  }
-
-  get avatar() {
-    return this._player.avatar;
-  }
-
-  set level(level) {
-    this._player.level = level;
-    this.$.levelBox.classList.remove(...prestigeRanks);
-    this.$.levelBox.classList.add(prestigeRanks[Math.trunc(level / 600)]);
-    this.render();
-  }
-
-  get level() {
-    return this._player.level || '';
-  }
-
-  set status(status) {
-    this._player.status = status;
-    this.$.status.style.background = this._statusBackground(status);
-  }
-
-  get status() {
-    return this._player.status;
-  }
-
-  _statusBackground(status) {
-    switch (status) {
-      case 'available':
-        return '#7DFF00';
-      case 'away':
-        return 'yellow';
-      case 'busy':
-        return 'red';
-      default:
-        return '#7DFF00';
-    }
-  }
-}
-
-customElements.define(OverwebsPlayerWidget.is, OverwebsPlayerWidget);
+    `}constructor(){super(),this._player={}}set player(a){Object.assign(this,a)}get player(){return this._player}set name(a){this._player.name=a,this.render()}get name(){return this._player.name||''}set avatar(a){this._player.avatar=a,this.$.avatar.style.backgroundImage=`url("${window.modulesAssetPath&&window.modulesAssetPath('overwebs-player-widget')||''}/avatars/${a}.png")`}get avatar(){return this._player.avatar}set level(a){this._player.level=a,this.$.levelBox.classList.remove(...prestigeRanks),this.$.levelBox.classList.add(prestigeRanks[Math.trunc(a/600)]),this.render()}get level(){return this._player.level||''}set status(a){this._player.status=a,this.$.status.style.background=this._statusBackground(a)}get status(){return this._player.status}_statusBackground(a){return'available'===a?'#7DFF00':'away'===a?'yellow':'busy'===a?'red':'#7DFF00'}}customElements.define(OverwebsPlayerWidget.is,OverwebsPlayerWidget);
