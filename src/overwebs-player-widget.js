@@ -1,4 +1,4 @@
-import { GluonElement, html, onRouteChange } from '../gluonjs/gluon.js';
+import { GluonElement, html } from '../gluonjs/gluon.js';
 import '../overwebs-fonts/overwebs-fonts.js';
 
 let prestigeRanks = ['bronze', 'silver', 'gold'];
