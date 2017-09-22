@@ -1,4 +1,4 @@
-import{GluonElement,html}from'../gluonjs/gluon.js';import'../overewebs-fonts/overwebs-fonts.js';let prestigeRanks=['bronze','silver','gold'];class OverwebsPlayerWidget extends GluonElement{get template(){return html`
+import{GluonElement,html,onRouteChange}from'../gluonjs/gluon.js';import'../overwebs-fonts/overwebs-fonts.js';let prestigeRanks=['bronze','silver','gold'];class OverwebsPlayerWidget extends GluonElement{get template(){return html`
 <style>
   :host {
     display: inline-flex;

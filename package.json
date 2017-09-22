@@ -24,5 +24,6 @@
     "build": "gulp",
     "dev": "gulp serve",
     "publish": "git add overwebs-player-widget.js"
-  }
+  },
+  "version": "0.0.1"
 }
