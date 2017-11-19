@@ -5,7 +5,7 @@ const prestigeRanks = ['bronze', 'silver', 'gold'];
 const prestigeSizes = ['16', '16', '16', '15', '13', '11'];
 const absoluteUrl = /^(?:https?:)?\/\//;
 
-class OverwebsPlayerWidget extends GluonElement {
+export class OverwebsPlayerWidget extends GluonElement {
   get template() {
     return html`
 <style>
