@@ -20,7 +20,7 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 
-   :root {
+  :root {
     --overwebs-window-size: 100vw;
   }
 </style>
@@ -29,12 +29,11 @@
 <span id="browser-sync-binding"></span>
 <!-- endbuild -->
 
-<a href="/test">LINK</a>
-<a href="/test?a=b">QUERY</a>
-<a href="#THING">HASH</a>
-<a href="http://localhost:5000/something">FULL URI</a>
-<a href="https://www.google.com">GOOG</a>
-<overwebs-player-widget id="player-widget"></overwebs-player-widget>
+<overwebs-player-widget id="player-widget-1"></overwebs-player-widget>
+<overwebs-player-widget id="player-widget-2"></overwebs-player-widget>
+<overwebs-player-widget id="player-widget-3"></overwebs-player-widget>
+<overwebs-player-widget id="player-widget-4"></overwebs-player-widget>
+<overwebs-player-widget id="player-widget-5"></overwebs-player-widget>
 
 <script>
   // This would be how to configure the asset path for modules.
@@ -46,19 +45,48 @@
     }
   }
 
-  document.body.addEventListener('click', (event) => {
-    console.log("CLICKED")
-    console.log(event)
-    console.log(event.path)
-  })
-
   // This is terrible, but seemingly the only way to wait until modules are imported
   setTimeout(() => {
-    let widget = document.getElementById('player-widget');
+    let widget = document.getElementById('player-widget-1');
     let player = {
-      'name': 'playername',
-      'level': 254,
-      'avatar': '0x0250000000000A90'
+      'name': 'RemoveAvatar',
+      'level': 44,
+      'avatar': 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000008E8.png'
+    };
+    widget.player = player;
+
+    widget = document.getElementById('player-widget-2');
+    player = {
+      'name': 'Away',
+      'level': 811,
+      'avatar': '0x0250000000000C77',
+      'status': 'away'
+    };
+    widget.player = player;
+
+    widget = document.getElementById('player-widget-3');
+    player = {
+      'name': 'Busy',
+      'level': 1554,
+      'avatar': '0x0250000000000B3B',
+      'status': 'away'
+    };
+    widget.player = player;
+
+    widget = document.getElementById('player-widget-4');
+    player = {
+      'name': 'Stars',
+      'level': 479,
+      'avatar': '0x0250000000000C78',
+      'status': 'busy'
+    };
+    widget.player = player;
+
+    widget = document.getElementById('player-widget-5');
+    player = {
+      'name': 'Morestars',
+      'level': 535,
+      'avatar': '0x0250000000000B3F'
     };
     widget.player = player;
   }, 100)

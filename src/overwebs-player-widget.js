@@ -1,18 +1,18 @@
 import { GluonElement, html } from '../gluonjs/gluon.js';
 import '../overwebs-fonts/overwebs-fonts.js';
 
-let prestigeRanks = ['bronze', 'silver', 'gold'];
+const prestigeRanks = ['bronze', 'silver', 'gold'];
+const prestigeSizes = ['16', '16', '16', '15', '13', '11'];
+const absoluteUrl = /^(?:https?:)?\/\//;
 
 class OverwebsPlayerWidget extends GluonElement {
   get template() {
     return html`
 <style>
   :host {
-    display: inline-flex;
-    position: absolute;
-    top: calc(40 / 25.6 * 1vw);
-    right: calc(68 / 25.6 * 1vw);
+    display: flex;
     height: calc(60 * var(--overwebs-window-size, 1920px) / 1920);
+    width: calc(406 * var(--overwebs-window-size, 1920px) / 1920);
     background: #27354F;
   }
 
@@ -53,48 +53,52 @@ class OverwebsPlayerWidget extends GluonElement {
     padding-left: calc(6 * var(--overwebs-window-size, 1920px) / 1920);
     border-radius: calc(3 * var(--overwebs-window-size, 1920px) / 1920);
     padding-right: calc(2 * var(--overwebs-window-size, 1920px) / 1920);
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    font-family: overwebs-futura;
   }
 
   .level {
     font-size: calc(15 * var(--overwebs-window-size, 1920px) / 1920);
     line-height: calc(18 * var(--overwebs-window-size, 1920px) / 1920);
     padding-right: calc(5 * var(--overwebs-window-size, 1920px) / 1920);
-    font-family: overwebs-futura;
-    color: white;
     transform: translateY(calc(1 * var(--overwebs-window-size, 1920px) / 1920));
   }
 
-  .prestige {
-    display: inline-block;
+  #prestige {
+    display: inline-flex;
+    align-items: center;
     border-radius: calc(3 * var(--overwebs-window-size, 1920px) / 1920);
-    font-family: overwebs-futura;
-    background: #FFFFFF;
-    font-size: calc(18 * var(--overwebs-window-size, 1920px) / 1920);
-    line-height: calc(14 * var(--overwebs-window-size, 1920px) / 1920);
+    background: white;
+    letter-spacing: calc(-3 * var(--overwebs-window-size, 1920px) / 1920);
+    height: calc(16 * var(--overwebs-window-size, 1920px) / 1920);
+    vertical-align: text-bottom;
   }
 
   #levelBox.bronze {
     background: #A35435;
+    color: white;
   }
 
-  #levelBox.bronze .prestige {
+  #levelBox.bronze #prestige {
     color: #A35435;
   }
 
   #levelBox.silver {
-    background: silver; // TODO: fix placeholder
+    background: #AFBDC3;
+    color: #2F3C55;
   }
-  #levelBox.silver .prestige {
-    color: silver; // TODO: fix placeholder
+
+  #levelBox.silver #prestige {
+    color: #333F58;
   }
 
   #levelBox.gold {
-    background: gold; // TODO: fix placeholder
+    background: #D3AD12;
+    color: #6E2E15;
   }
-  #levelBox.gold .prestige {
-    color: gold; // TODO: fix placeholder
+  #levelBox.gold #prestige {
+    color: #A35435;
   }
 </style>
 <div id="status"></div>
@@ -104,7 +108,7 @@ class OverwebsPlayerWidget extends GluonElement {
   <span id="levelBox">
     <span class="level">${(this.level - 1) % 100 + 1}</span>
     <!-- TODO: The futura font does not support the star glyph -->
-    <span class="prestige">${'★'.repeat(Math.trunc((this.level % 600 - 1) / 100))}</span>
+    <span id="prestige">${'★'.repeat(Math.trunc((this.level % 600 - 1) / 100))}</span>
   </span>
 </div>
     `;
@@ -135,9 +139,12 @@ class OverwebsPlayerWidget extends GluonElement {
 
   set avatar(avatar) {
     this._player.avatar = avatar;
-    // There is no way to refer to a relative file location in Modules right now so we use a helper function
-    this.$.avatar.style.backgroundImage = `url("${(window.modulesAssetPath && window.modulesAssetPath('overwebs-player-widget')) ||
-      ''}/avatars/${avatar}.png")`;
+    if (absoluteUrl.test(avatar)) {
+      this.$.avatar.style.backgroundImage = `url("${avatar}")`;
+    } else {
+      this.$.avatar.style.backgroundImage = `url("${(window.modulesAssetPath && window.modulesAssetPath('overwebs-player-widget')) ||
+        ''}/avatars/${avatar}.png")`;
+    }
   }
 
   get avatar() {
@@ -148,6 +155,10 @@ class OverwebsPlayerWidget extends GluonElement {
     this._player.level = level;
     this.$.levelBox.classList.remove(...prestigeRanks);
     this.$.levelBox.classList.add(prestigeRanks[Math.trunc(level / 600)]);
+    const prestige = Math.trunc((level % 600 - 1) / 100);
+    this.$.prestige.style.fontSize = `calc(${prestigeSizes[prestige]} * var(--overwebs-window-size, 1920px) / 1920)`;
+    const padding = prestige > 0 ? '3' : '0';
+    this.$.prestige.style.paddingRight = `calc(${padding} * var(--overwebs-window-size, 1920px) / 1920)`;
     this.render();
   }
 
@@ -169,9 +180,9 @@ class OverwebsPlayerWidget extends GluonElement {
       case 'available':
         return '#7DFF00';
       case 'away':
-        return 'yellow';
+        return '#F9CC1E';
       case 'busy':
-        return 'red';
+        return '#BE1E2D';
       default:
         return '#7DFF00';
     }
