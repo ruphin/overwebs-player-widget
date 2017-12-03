@@ -15,8 +15,8 @@
     "gulp-uglify-es": "^0.1.3"
   },
   "dependencies": {
-    "gluonjs": "^2.0.0-preview.3",
-    "overwebs-fonts": "^1.0.0-rc1"
+    "gluonjs": "^2.0.2",
+    "overwebs-fonts": "^1.0.0"
   },
   "scripts": {
     "build": "gulp",

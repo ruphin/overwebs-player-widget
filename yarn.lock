@@ -1076,9 +1076,9 @@ glogg@^1.0.0:
   dependencies:
     sparkles "^1.0.0"
 
-gluonjs@^2.0.0-preview.3:
-  version "2.0.0-preview.3"
-  resolved "https://registry.yarnpkg.com/gluonjs/-/gluonjs-2.0.0-preview.3.tgz#04a666e460008de0e37b57852860fc2a4b32f6ee"
+gluonjs@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/gluonjs/-/gluonjs-2.0.2.tgz#8b0228a4c2ca9b2c2dd35adb042bb9aaa4c80495"
   dependencies:
     lit-html "^0.6.0"
 
@@ -2010,9 +2010,9 @@ osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-overwebs-fonts@^1.0.0-rc1:
-  version "1.0.0-rc1"
-  resolved "https://registry.yarnpkg.com/overwebs-fonts/-/overwebs-fonts-1.0.0-rc1.tgz#e0ec9909f42b62ee0cf7ac78b9fdd4278e2695b6"
+overwebs-fonts@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/overwebs-fonts/-/overwebs-fonts-1.0.0.tgz#004ec5e8df8411986dc72551d47d1514615911dd"
 
 parse-filepath@^1.0.1:
   version "1.0.1"
