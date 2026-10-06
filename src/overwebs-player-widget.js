@@ -1,5 +1,5 @@
-import { GluonElement, html } from '../gluonjs/gluon.js';
-import '../overwebs-fonts/overwebs-fonts.js';
+import { GluonElement, html } from 'gluonjs/gluon.js';
+import 'overwebs-fonts/overwebs-fonts.js';
 
 const prestigeRanks = ['bronze', 'silver', 'gold'];
 const prestigeSizes = ['16', '16', '16', '15', '13', '11'];

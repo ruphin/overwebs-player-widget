@@ -1,27 +1,35 @@
 {
   "name": "overwebs-player-widget",
   "description": "The Overwatch Player Widget as a Gluonjs Web Component",
-  "main": "overwebs-player-widget.js",
+  "type": "module",
+  "main": "dist/overwebs-player-widget.js",
+  "module": "dist/overwebs-player-widget.js",
+  "exports": {
+    ".": "./dist/overwebs-player-widget.js",
+    "./avatars/*": "./avatars/*"
+  },
+  "files": [
+    "dist",
+    "src",
+    "avatars"
+  ],
   "repository": "git@github.com:ruphin/overwebs-player-widget.git",
   "author": "Goffert van Gool",
   "license": "MIT",
-  "devDependencies": {
-    "browser-sync": "^2.18.8",
-    "connect-history-api-fallback": "^1.3.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^4.0.0",
-    "gulp-minify-css": "^1.2.4",
-    "gulp-sourcemaps": "^2.6.1",
-    "gulp-uglify-es": "^0.1.3"
-  },
   "dependencies": {
     "gluonjs": "^2.0.2",
     "overwebs-fonts": "^1.0.0"
   },
+  "devDependencies": {
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
+  },
   "scripts": {
-    "build": "gulp",
-    "dev": "gulp serve",
-    "publish": "git add overwebs-player-widget.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run --passWithNoTests",
+    "prepublishOnly": "npm run build"
   },
   "version": "1.0.1"
 }
